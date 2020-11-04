@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+* Fix text overflow bug in Firefox ([PR #1764](https://github.com/alphagov/govuk_publishing_components/pull/1764))
+
 ## 23.3.0
 
 * Change how analytics variables are passed ([PR #1762](https://github.com/alphagov/govuk_publishing_components/pull/1762))
