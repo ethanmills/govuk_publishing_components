@@ -10,7 +10,9 @@ describe('Track select change', function () {
   }
 
   afterEach(function () {
-    GOVUK.analytics.trackEvent.calls.reset()
+    if (GOVUK.analytics.trackEvent.calls) {
+      GOVUK.analytics.trackEvent.calls.reset()
+    }
   })
 
   describe('by default', function () {

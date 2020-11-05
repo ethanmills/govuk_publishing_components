@@ -34,7 +34,9 @@ describe('Details component', function () {
   })
 
   afterEach(function () {
-    GOVUK.analytics.trackEvent.calls.reset()
+    if (GOVUK.analytics.trackEvent.calls) {
+      GOVUK.analytics.trackEvent.calls.reset()
+    }
   })
 
   it('uses built in tracking module when provided with a track-label', function () {

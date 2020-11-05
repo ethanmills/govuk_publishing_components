@@ -23,10 +23,7 @@ describe('GOVUK.analyticsPlugins.externalLinkTracker', function () {
     $('html').on('click', function (evt) { evt.preventDefault() })
     $('body').append($links)
 
-    GOVUK.analytics = {
-      trackEvent: function () {},
-      setDimension: function () {}
-    }
+    window.GOVUK.analyticsInit()
     spyOn(GOVUK.analyticsPlugins.externalLinkTracker, 'getHostname').and.returnValue('fake-hostname.com')
   })
 
@@ -34,25 +31,28 @@ describe('GOVUK.analyticsPlugins.externalLinkTracker', function () {
     $('html').off()
     $('body').off()
     $links.remove()
-    delete window.GOVUK.analytics
-    window.GOVUK.analyticsInit()
+
+    if (GOVUK.analytics.trackEvent.calls) {
+      GOVUK.analytics.trackEvent.calls.reset()
+    }
+    if (GOVUK.analytics.setDimension.calls) {
+      GOVUK.analytics.setDimension.calls.reset()
+    }
   })
 
-  // this test passes when run individually but fails with the other tests
-  // not needed but will require fixing when analytics are fully migrated from static
-  xit('listens to click events on only external links', function () {
+  it('listens to click events on only external links', function () {
     GOVUK.analyticsPlugins.externalLinkTracker({ externalLinkUploadCustomDimension: 36 })
 
     spyOn(GOVUK.analytics, 'trackEvent')
 
     $('.external-links a').each(function () {
-      $(this).trigger('click')
+      $(this).click()
       expect(GOVUK.analytics.trackEvent).toHaveBeenCalled()
       GOVUK.analytics.trackEvent.calls.reset()
     })
 
     $('.internal-links a').each(function () {
-      $(this).trigger('click')
+      $(this).click()
       expect(GOVUK.analytics.trackEvent).not.toHaveBeenCalled()
       GOVUK.analytics.trackEvent.calls.reset()
     })
@@ -93,10 +93,8 @@ describe('GOVUK.analyticsPlugins.externalLinkTracker', function () {
       'External Link Clicked', 'http://www.nationalarchives.gov.uk', { transport: 'beacon', label: 'National Archives' })
   })
 
-  // this test passes when run individually but fails with the other tests
-  // not needed but will require fixing when analytics are fully migrated from static
-  xit('does not duplicate the url info if a custom dimension is not provided', function () {
-    GOVUK.analyticsPlugins.externalLinkTracker()
+  it('does not duplicate the url info if a custom dimension is not provided', function () {
+    GOVUK.analyticsPlugins.externalLinkTracker({})
     spyOn(GOVUK.analytics, 'trackEvent')
     spyOn(GOVUK.analytics, 'setDimension')
     $('.external-links a').trigger('click')
