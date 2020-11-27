@@ -7,6 +7,10 @@
   useful summary for people upgrading their application, not a replication
   of the commit log.
 
+## Unreleased
+
+* Implement toggle state notifications for screen reader users ([PR #1787](https://github.com/alphagov/govuk_publishing_components/pull/1787))
+
 ## 23.9.1
 
 * Disable the transition countdown on a certain page ([PR #1821](https://github.com/alphagov/govuk_publishing_components/pull/1821))
