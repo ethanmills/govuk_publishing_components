@@ -1,5 +1,6 @@
 var analyticsInit = function () {
-  'use strict'
+  // 'use strict'
+  console.log('initialising analytics', analyticsInit.caller)
 
   var analyticsVars = window.GOVUK.analyticsVars || false
   if (analyticsVars) {

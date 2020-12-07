@@ -23,6 +23,7 @@ describe('GOVUK.analyticsPlugins.externalLinkTracker', function () {
     $('html').on('click', function (evt) { evt.preventDefault() })
     $('body').append($links)
 
+    delete window.GOVUK.analytics
     window.GOVUK.analyticsInit()
     spyOn(GOVUK.analyticsPlugins.externalLinkTracker, 'getHostname').and.returnValue('fake-hostname.com')
   })
@@ -94,6 +95,7 @@ describe('GOVUK.analyticsPlugins.externalLinkTracker', function () {
   })
 
   it('does not duplicate the url info if a custom dimension is not provided', function () {
+    console.log('does not duplicate the url info if a custom dimension is not provided')
     GOVUK.analyticsPlugins.externalLinkTracker({})
     spyOn(GOVUK.analytics, 'trackEvent')
     spyOn(GOVUK.analytics, 'setDimension')
@@ -101,5 +103,6 @@ describe('GOVUK.analyticsPlugins.externalLinkTracker', function () {
 
     expect(GOVUK.analytics.setDimension).not.toHaveBeenCalled()
     expect(GOVUK.analytics.trackEvent).toHaveBeenCalledWith('External Link Clicked', 'http://www.nationalarchives.gov.uk', { transport: 'beacon', label: 'National Archives' })
+    console.log('/does not duplicate the url info if a custom dimension is not provided')
   })
 })
